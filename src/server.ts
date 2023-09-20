@@ -1,33 +1,37 @@
-import express from 'express';
-import payload from 'payload';
+import dotenv from 'dotenv'
+import path from 'path'
 
-const app = express();
+dotenv.config({
+  path: path.resolve(__dirname, '../.env'),
+})
 
-// Redirect root to Admin panel
+import express from 'express'
+import payload from 'payload'
+
+import { seed } from './seed'
+
+const app = express()
+
 app.get('/', (_, res) => {
-  res.redirect('/admin');
-});
+  res.redirect('/admin')
+})
 
-const start = async () => {
-  // Initialize Payload
+const start = async (): Promise<void> => {
   await payload.init({
-    secret: process.env.PAYLOAD_SECRET_KEY,
-    mongoURL: process.env.MONGO_URL,
+    secret: process.env.PAYLOAD_SECRET,
+    mongoURL: process.env.MONGODB_URI,
     express: app,
-    onInit: async () => {
-      payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`);
-    }
+    onInit: () => {
+      payload.logger.info(`Payload Admin URL: ${payload.getAdminURL()}`)
+    },
   })
 
-  // Add your own express routes here
+  if (process.env.PAYLOAD_SEED === 'true') {
+    payload.logger.info('---- SEEDING DATABASE ----')
+    await seed(payload)
+  }
 
-  app.get('/health', (_, res) => {
-    res.sendStatus(200);
-  });
-
-  const PORT = process.env.PORT || 3000;
-
-	app.listen(PORT);
+  app.listen(3000)
 }
 
-start();
+start()

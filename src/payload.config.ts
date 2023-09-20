@@ -1,21 +1,19 @@
-import { buildConfig } from 'payload/config';
-import path from 'path';
-import Examples from './collections/Examples';
-import Users from './collections/Users';
-import Media from './collections/Media';
+import dotenv from 'dotenv'
+import path from 'path'
 
-const serverURL = process.env.PAYLOAD_PUBLIC_SERVER_URL;
+dotenv.config({
+  path: path.resolve(__dirname, '../.env'),
+})
+
+import { buildConfig } from 'payload/config'
+
+import { Pages } from './collections/Pages'
+import { Tenants } from './collections/Tenants'
+import { Users } from './collections/Users'
 
 export default buildConfig({
-  serverURL: (serverURL == 'https://') ? 'http://127.0.0.1:3000' : serverURL,
-  admin: {
-    user: Users.slug
-  },
-  collections: [Users, Media, Examples],
+  collections: [Users, Tenants, Pages],
   typescript: {
-    outputFile: path.resolve(__dirname, 'payload-types.ts')
+    outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
-  graphQL: {
-    schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql')
-  }
 })
