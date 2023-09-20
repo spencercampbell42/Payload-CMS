@@ -1,11 +1,9 @@
 import type { CollectionConfig } from 'payload/types'
 
-import { anyone } from '../access/anyone'
 import { superAdminFieldAccess } from '../access/superAdmins'
 import { adminsAndSelf } from './access/adminsAndSelf'
 import { tenantAdmins } from './access/tenantAdmins'
 import { loginAfterCreate } from './hooks/loginAfterCreate'
-import { recordLastLoggedInTenant } from './hooks/recordLastLoggedInTenant'
 import { isSuperOrTenantAdmin } from './utilities/isSuperOrTenantAdmin'
 
 export const Users: CollectionConfig = {
@@ -16,14 +14,12 @@ export const Users: CollectionConfig = {
   },
   access: {
     read: adminsAndSelf,
-    create: anyone,
+    create: isSuperOrTenantAdmin,
     update: adminsAndSelf,
-    delete: adminsAndSelf,
-    admin: isSuperOrTenantAdmin,
+    delete: isSuperOrTenantAdmin,
   },
   hooks: {
     afterChange: [loginAfterCreate],
-    afterLogin: [recordLastLoggedInTenant],
   },
   fields: [
     {
@@ -88,20 +84,6 @@ export const Users: CollectionConfig = {
           ],
         },
       ],
-    },
-    {
-      name: 'lastLoggedInTenant',
-      type: 'relationship',
-      relationTo: 'tenants',
-      index: true,
-      access: {
-        create: () => false,
-        read: tenantAdmins,
-        update: superAdminFieldAccess,
-      },
-      admin: {
-        position: 'sidebar',
-      },
     },
   ],
 }

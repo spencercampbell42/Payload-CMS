@@ -12,14 +12,12 @@ export const seed = async (payload: Payload): Promise<void> => {
   })
 
   // create tenants, use `*.localhost.com` so that accidentally forgotten changes the hosts file are acceptable
-  //const [financeDemo, visa] = await Promise.all([
-  await Promise.all([
+  const [financeDemo, visa] = await Promise.all([
     await payload.create({
       collection: 'tenants',
       data: {
         name: 'Finance Demo',
         slug: 'finance-demo',
-        domains: [{ domain: 'finance-demo.localhost.com:3000' }],
       },
     }),
     await payload.create({
@@ -27,22 +25,21 @@ export const seed = async (payload: Payload): Promise<void> => {
       data: {
         name: 'Visa',
         slug: 'visa',
-        domains: [{ domain: 'visa.localhost.com:3000' }],
       },
     }),
   ])
 
   // create tenant-scoped admins and users
-  /* await Promise.all([
+  await Promise.all([
     await payload.create({
       collection: 'users',
       data: {
-        email: 'admin@abc.com',
-        password: 'test',
+        email: 'visa.admin@ipsos.com',
+        password: 'Rise2023!',
         roles: ['user'],
         tenants: [
           {
-            tenant: abc.id,
+            tenant: visa.id,
             roles: ['admin'],
           },
         ],
@@ -51,12 +48,12 @@ export const seed = async (payload: Payload): Promise<void> => {
     await payload.create({
       collection: 'users',
       data: {
-        email: 'user@abc.com',
-        password: 'test',
+        email: 'visa.user@ipsos.com',
+        password: 'Rise2023!',
         roles: ['user'],
         tenants: [
           {
-            tenant: abc.id,
+            tenant: visa.id,
             roles: ['user'],
           },
         ],
@@ -65,12 +62,12 @@ export const seed = async (payload: Payload): Promise<void> => {
     await payload.create({
       collection: 'users',
       data: {
-        email: 'admin@bbc.com',
-        password: 'test',
+        email: 'financedemo.admin@ipsos.com',
+        password: 'Rise2023!',
         roles: ['user'],
         tenants: [
           {
-            tenant: bbc.id,
+            tenant: financeDemo.id,
             roles: ['admin'],
           },
         ],
@@ -79,29 +76,29 @@ export const seed = async (payload: Payload): Promise<void> => {
     await payload.create({
       collection: 'users',
       data: {
-        email: 'user@bbc.com',
-        password: 'test',
+        email: 'financedemo.user@ipsos.com',
+        password: 'Rise2023!',
         roles: ['user'],
         tenants: [
           {
-            tenant: bbc.id,
+            tenant: financeDemo.id,
             roles: ['user'],
           },
         ],
       },
     }),
-  ]) */
+  ])
 
   // create tenant-scoped pages
-  /* await Promise.all([
+  await Promise.all([
     await payload.create({
       collection: 'pages',
       data: {
-        tenant: abc.id,
-        title: 'ABC Home',
+        tenant: visa.id,
+        title: 'Visa Page',
         richText: [
           {
-            text: 'Hello, ABC!',
+            text: 'Hello, Visa!',
           },
         ],
       },
@@ -109,14 +106,14 @@ export const seed = async (payload: Payload): Promise<void> => {
     await payload.create({
       collection: 'pages',
       data: {
-        title: 'BBC Home',
-        tenant: bbc.id,
+        title: 'Finance Demo Page',
+        tenant: financeDemo.id,
         richText: [
           {
-            text: 'Hello, BBC!',
+            text: 'Hello, Finance Demo!',
           },
         ],
       },
     }),
-  ])*/
+  ])
 }

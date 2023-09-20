@@ -27,13 +27,9 @@ export const tenant: Field = {
     // automatically set the tenant to the last logged in tenant
     // for super admins, allow them to set the tenant
     beforeChange: [
-      async ({ req, req: { user }, data }) => {
+      async ({ req, data }) => {
         if ((await isSuperAdmin(req.user)) && data?.tenant) {
           return data.tenant
-        }
-
-        if (user?.lastLoggedInTenant?.id) {
-          return user.lastLoggedInTenant.id
         }
 
         return undefined

@@ -9,7 +9,7 @@ export const Tenants: CollectionConfig = {
   access: {
     create: superAdmins,
     read: tenantAdmins,
-    update: tenantAdmins,
+    update: superAdmins,
     delete: superAdmins,
   },
   admin: {
@@ -33,18 +33,6 @@ export const Tenants: CollectionConfig = {
       hooks: {
         beforeValidate: [formatSlug('name')],
       },
-    },
-    {
-      name: 'domains',
-      type: 'array',
-      index: true,
-      fields: [
-        {
-          name: 'domain',
-          type: 'text',
-          required: true,
-        },
-      ],
     },
   ],
 }
