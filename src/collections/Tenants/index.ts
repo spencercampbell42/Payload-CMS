@@ -1,21 +1,18 @@
 import type { CollectionConfig } from 'payload/types'
 
 import { superAdmins } from '../access/superAdmins'
-import { tenantAdmins } from './access/tenantAdmins'
 import formatSlug from './hooks/formatSlug'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
   access: {
     create: superAdmins,
-    read: tenantAdmins,
+    read: superAdmins,
     update: superAdmins,
     delete: superAdmins,
   },
   admin: {
     useAsTitle: 'name',
-    hidden: ({ user }) =>
-      !(user?.roles as string[])?.some(individualRole => individualRole === 'super-admin'),
   },
   fields: [
     {

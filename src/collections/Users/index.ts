@@ -11,12 +11,6 @@ export const Users: CollectionConfig = {
   auth: true,
   admin: {
     useAsTitle: 'email',
-    hidden: ({ user }) =>
-      !(user?.roles as string[])?.some(
-        individualRole =>
-          individualRole === 'super-admin' ||
-          (user?.tenants as any[]).some(tenant => tenant.roles.some(role => role === 'admin')),
-      ),
   },
   access: {
     read: adminsAndSelf,
