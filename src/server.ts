@@ -1,20 +1,21 @@
 import dotenv from 'dotenv'
+import express from 'express'
 import path from 'path'
+import payload from 'payload'
+
+import { seed } from './seed'
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
 })
-
-import express from 'express'
-import payload from 'payload'
-
-import { seed } from './seed'
 
 const app = express()
 
 app.get('/', (_, res) => {
   res.redirect('/admin')
 })
+
+app.use('/assets', express.static(path.resolve(__dirname, '../assets')))
 
 const start = async (): Promise<void> => {
   await payload.init({
