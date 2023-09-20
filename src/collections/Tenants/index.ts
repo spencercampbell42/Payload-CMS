@@ -14,6 +14,8 @@ export const Tenants: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
+    hidden: ({ user }) =>
+      !(user?.roles as string[])?.some(individualRole => individualRole === 'super-admin'),
   },
   fields: [
     {
