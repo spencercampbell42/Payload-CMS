@@ -16,7 +16,7 @@
     "generate:graphQLSchema": "PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:graphQLSchema",
     "lint": "eslint src",
     "lint:fix": "eslint --fix --ext .ts,.tsx src",
-    "start": "npm run serve"
+    "start": "yarn serve"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
