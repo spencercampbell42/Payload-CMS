@@ -1,10 +1,10 @@
 import type { CollectionConfig } from 'payload/types'
 
+import { anyone } from '../access/anyone'
 import richText from '../fields/richText'
 import { tenant } from '../fields/tenant'
 import { loggedIn } from './access/loggedIn'
 import { tenantAdmins } from './access/tenantAdmins'
-import { tenants } from './access/tenants'
 import formatSlug from './hooks/formatSlug'
 
 export const Pages: CollectionConfig = {
@@ -14,7 +14,7 @@ export const Pages: CollectionConfig = {
     defaultColumns: ['title', 'slug', 'updatedAt'],
   },
   access: {
-    read: tenants,
+    read: anyone,
     create: loggedIn,
     update: tenantAdmins,
     delete: tenantAdmins,
