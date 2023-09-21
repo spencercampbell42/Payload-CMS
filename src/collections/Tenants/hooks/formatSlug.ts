@@ -2,7 +2,7 @@ import type { FieldHook } from 'payload/types'
 
 const format = (val: string): string =>
   val
-    .replace(/ /g, '-')
+    .replace(/ /g, '')
     .replace(/[^\w-]+/g, '')
     .toLowerCase()
 
