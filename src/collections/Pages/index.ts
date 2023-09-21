@@ -37,6 +37,26 @@ export const Pages: CollectionConfig = {
         beforeValidate: [formatSlug('title')],
       },
     },
+    /* {
+      name: 'nav',
+      type: 'radio',
+      label: 'Main Navigation or Settings',
+      options: [
+        {
+          label: 'Main Navigation',
+          value: 'main',
+        },
+        {
+          label: 'Settings',
+          value: 'settings',
+        },
+      ],
+      defaultValue: 'settings',
+      admin: {
+        layout: 'horizontal',
+        position: 'sidebar',
+      },
+    }, */
     tenant,
     richText(),
   ],

@@ -29,10 +29,36 @@ export default buildConfig({
             },
           },
         })
-        res.status(200).send({ req: req.params, data })
+        res.status(200).send({ pages: data.docs })
+      },
+    },
+    {
+      path: '/tenant-page/:tenantSlug/:pageSlug',
+      method: 'get',
+      handler: async (req, res) => {
+        const data = await payload.find({
+          collection: 'pages',
+          where: {
+            and: [
+              {
+                'tenant.slug': {
+                  equals: req.params.tenantSlug,
+                },
+              },
+              {
+                slug: {
+                  equals: req.params.pageSlug,
+                },
+              },
+            ],
+          },
+        })
+        res.status(200).send({ ...data.docs[0] })
       },
     },
   ],
+  // TODO: this should be more restrictive
+  cors: '*',
   collections: [Users, Tenants, Pages],
   admin: {
     // Add your own logo and icon here
