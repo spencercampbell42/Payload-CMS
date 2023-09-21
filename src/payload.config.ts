@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import path from 'path'
+import payload from 'payload'
 
 import { Icon } from './graphics/Icon'
 import { Logo } from './graphics/Logo'
@@ -15,6 +16,23 @@ import { Tenants } from './collections/Tenants'
 import { Users } from './collections/Users'
 
 export default buildConfig({
+  endpoints: [
+    {
+      path: '/tenant-pages/:slug',
+      method: 'get',
+      handler: async (req, res) => {
+        const data = await payload.find({
+          collection: 'pages',
+          where: {
+            'tenant.slug': {
+              equals: req.params.slug,
+            },
+          },
+        })
+        res.status(200).send({ req: req.params, data })
+      },
+    },
+  ],
   collections: [Users, Tenants, Pages],
   admin: {
     // Add your own logo and icon here
